@@ -52,6 +52,7 @@ class App extends Component {
         this.setState({ isLoading: true });
         let args = {
             params: {
+                max: 20,
                 ml: this.state.meansContent,
             }
         };
