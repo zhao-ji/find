@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { 
     Button,
-    Container,
     Form,
     InputGroup,
+    Container,
+    Row,
+    Col,
 } from 'react-bootstrap';
 
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import axios from 'axios';
 
-import FindInput from './components/input';
+import Components from './components';
 
 class App extends Component {
     state = {
@@ -31,18 +33,16 @@ class App extends Component {
 
     onChange = event => {
         const value = event.target.value;
-        this.setState(prevState =>
-            ({ filters: prevState.filters.concat(value), })
-        );
+        this.setState(prevState => ({
+            filters: prevState.filters.concat(value),
+        }));
     }
 
     onDeleteMethod = method => {
-        this.setState(prevState =>
-            ({ 
-                filters: prevState.filters.filter(i => i !== method),
-                [method]: null,
-            })
-        );
+        this.setState(prevState => ({ 
+            filters: prevState.filters.filter(i => i !== method),
+            [method]: null,
+        }));
     }
 
     onInputChange = (event, type="") => {
@@ -53,7 +53,7 @@ class App extends Component {
     onSubmit = () => {
         this.setState({ isLoading: true });
         let params = {
-            max: 20,
+            max: 18,
         };
         if (this.state.means) {
             params["ml"] = this.state.means;
@@ -113,37 +113,37 @@ class App extends Component {
                     </Form.Control>
                 </InputGroup>
                 <br/>
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="means"
                     helpText='根据单词的含义来查找，例如使用 "ringng in the ears" 来查找 "earing"'
                 />
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="sounds"
                     helpText=' 根据单词的发音来查找，例如使用 "elefint" 来查找 "elephant" '
                 />
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="spelled"
                     helpText='根据单词的拼写来查找，例如使用 "app??" 或 "app*" 来查找 "apple", "?"代表一个字符, "*"代表多个字符'
                 />
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="topics"
                     helpText='根据单词的主题来查找，例如使用 "fruit" 来查找 "apple", 最多五个主题，主题之间用空格分隔'
                 />
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="leftContext"
                     helpText='如果想查找 "person", 用经常出现在person前面的单词来查找，例如 "kind"'
                 />
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="rightContext"
                     helpText='如果想查找 "kind", 用经常出现在kind后面的单词来查找，例如 "person"'
                 />
-                <FindInput 
+                <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     type="antonyms"
                     helpText='如果想查找 "good", 用反义词来查找，例如 "bad"'
@@ -156,16 +156,19 @@ class App extends Component {
                 }
                 <br/>
                 {isLoading &&
-                    <FontAwesomeIcon icon={faSpinner} spin className="mx-auto"/>
+                    <Row>
+                        <Col lg={{span: 2, offset: 5}} md={{span: 2, offset: 5}}>
+                            <FontAwesomeIcon icon={faSpinner} spin size="3x" className="mx-auto" />
+                        </Col>
+                    </Row>
                 }
-                {!isLoading && results &&
-                    results.map((i, index) => (
-                        <div key={index}>
-                            <meter min="0" max="100000" value={i.score}></meter>
-                            {i.word}
-                        </div>
-                    ))
-                }
+                <Row>
+                    {!isLoading && results && results.map((result, index) => (
+                        <Col key={index} lg={4} md={6} sm={12} className="my-1">
+                            <Components.ResultCard result={result} />
+                        </Col>
+                    ))}
+                </Row>
             </Container>
         );
     }
