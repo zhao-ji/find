@@ -8,6 +8,8 @@ import {
     Col,
 } from 'react-bootstrap';
 
+import axios from 'axios';
+
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
