@@ -12,7 +12,7 @@ import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { faTrash, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const FindInput = ({ filters, onInputChange, onDeleteMethod, type, helpText }) => {
+const FindInput = ({ filters, onInputChange, onDeleteMethod, onKeyDown, type, helpText }) => {
     return (
         filters.includes(type) &&
         <Fragment>
@@ -23,6 +23,7 @@ const FindInput = ({ filters, onInputChange, onDeleteMethod, type, helpText }) =
                 <Form.Control
                     type="text" size="lg"
                     onChange={event => onInputChange(event, type)}
+                    onKeyDown={onKeyDown}
                 />
                 <InputGroup.Append>
                     <Button variant="outline-secondary"> 
