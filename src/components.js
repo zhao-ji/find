@@ -80,7 +80,12 @@ class ResultCard extends Component {
     }
 }
 
+const Comment = ({ children }) => {
+  return false;
+};
+
 export default {
     FindInput: FindInput,
     ResultCard: ResultCard,
+    Comment: Comment,
 };

@@ -103,7 +103,7 @@ class App extends Component {
     }
 
     render() {
-        const {filters, isLoading, results } = this.state;
+        const { filters, isLoading, results } = this.state;
         return (
             <Container>
                 <InputGroup className="shadow-sm mt-2">
@@ -170,17 +170,25 @@ class App extends Component {
                         查找
                     </Button>
                 }
+                <Components.Comment>loading</Components.Comment>
                 {isLoading &&
                     <Row className="mt-2 justify-content-center">
                         <FontAwesomeIcon icon={faSpinner} spin size="3x"/>
                     </Row>
                 }
-                <Row className="mt-2">
-                    {!isLoading && results && results.map((result, index) => (
-                        <Col key={index} lg={4} md={6} sm={12} className="my-1">
+                <Components.Comment>if there are results</Components.Comment>
+                <Row>
+                    {!isLoading && results && results.length > 0 && results.map((result, index) => (
+                        <Col key={index} lg={4} md={6} sm={12} className="mt-2">
                             <Components.ResultCard result={result} />
                         </Col>
                     ))}
+                </Row>
+                <Components.Comment>if there is no result</Components.Comment>
+                <Row className="mt-2 justify-content-center">
+                    {!isLoading && results && results.length === 0 &&
+                        <span>找不到结果...</span>
+                    }
                 </Row>
             </Container>
         );
