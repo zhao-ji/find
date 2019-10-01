@@ -106,7 +106,7 @@ class App extends Component {
         const {filters, isLoading, results } = this.state;
         return (
             <Container>
-                <InputGroup className="shadow-sm">
+                <InputGroup className="shadow-sm mt-2">
                     <InputGroup.Prepend>
                         <Button variant="outline-secondary"> En/汉 </Button>
                     </InputGroup.Prepend>
@@ -123,7 +123,6 @@ class App extends Component {
                         {!filters.includes("antonyms") && <option value="antonyms">反义词</option>}
                     </Form.Control>
                 </InputGroup>
-                <br/>
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
@@ -166,21 +165,17 @@ class App extends Component {
                     type="antonyms"
                     helpText='如果想查找 "good", 用反义词来查找，例如 "bad"'
                 />
-                <br/>
                 {filters.length > 0 &&
-                    <Button variant="outline-info" size="lg" block onClick={this.onSubmit}>
+                    <Button className="mt-2" variant="outline-info" size="lg" block onClick={this.onSubmit}>
                         查找
                     </Button>
                 }
-                <br/>
                 {isLoading &&
-                    <Row>
-                        <Col lg={{span: 2, offset: 5}} md={{span: 2, offset: 5}}>
-                            <FontAwesomeIcon icon={faSpinner} spin size="3x" className="mx-auto" />
-                        </Col>
+                    <Row className="mt-2 justify-content-center">
+                        <FontAwesomeIcon icon={faSpinner} spin size="3x"/>
                     </Row>
                 }
-                <Row>
+                <Row className="mt-2">
                     {!isLoading && results && results.map((result, index) => (
                         <Col key={index} lg={4} md={6} sm={12} className="my-1">
                             <Components.ResultCard result={result} />

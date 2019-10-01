@@ -3,9 +3,11 @@ import React, { Component, Fragment } from 'react';
 import { 
     ButtonGroup,
     Button,
+    Card,
     Form,
     InputGroup,
-    Card,
+    Row,
+    Col,
 } from 'react-bootstrap';
 
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
@@ -13,10 +15,12 @@ import { faTrash, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const FindInput = ({ filters, onInputChange, onDeleteMethod, onKeyDown, type, helpText }) => {
+    if(!filters.includes(type)){
+        return false;
+    }
     return (
-        filters.includes(type) &&
         <Fragment>
-            <span className="d-block font-light-weight font-italic small">
+            <span className="d-block font-light-weight font-italic small mt-2">
                 {helpText}
             </span>
             <InputGroup className="shadow-sm">
@@ -52,20 +56,24 @@ class ResultCard extends Component {
         return (
             <Card>
                 <Card.Body>
-                    <Card.Title>
-                        <meter min="0" max="100000" value={score}></meter>
-                        <span className="ml-3"> {word} </span>
-                        <ButtonGroup className="float-right" size="sm">
-                            <Button variant="light" onClick={() => this.onCopy(word)}>
-                                <FontAwesomeIcon icon={faClipboard} />
-                            </Button>
-                            <Button
-                                href={`https://www.lexico.com/en/definition/${word}`}
-                                target="_blank" variant="light">
-                                <FontAwesomeIcon icon={faExternalLinkAlt} />
-                            </Button>
-                        </ButtonGroup>
-                    </Card.Title>
+                    <span style={{ fontSize: "1.5em" }} className="mb-2"> {word} </span>
+                    <Row>
+                        <Col lg="8" xs="8">
+                            <meter min="0" max="100000" low="10000" value={score}></meter>
+                        </Col>
+                        <Col lg="4" xs="4">
+                            <ButtonGroup className="float-right" size="sm">
+                                <Button variant="light" onClick={() => this.onCopy(word)}>
+                                    <FontAwesomeIcon icon={faClipboard} />
+                                </Button>
+                                <Button
+                                    href={`https://www.lexico.com/en/definition/${word}`}
+                                    target="_blank" variant="light">
+                                    <FontAwesomeIcon icon={faExternalLinkAlt} />
+                                </Button>
+                            </ButtonGroup>
+                        </Col>
+                    </Row>
                 </Card.Body>
             </Card>
         );
