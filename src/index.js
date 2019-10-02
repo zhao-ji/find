@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+//eslint-disable-next-line
 import i18n from "./i18n";
 
 ReactDOM.render(<App />, document.getElementById('root'));

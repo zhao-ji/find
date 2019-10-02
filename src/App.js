@@ -152,43 +152,43 @@ class App extends Component {
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="means"
-                    helpText='根据单词的含义来查找，例如使用 "ringng in the ears" 来查找 "earing"'
+                    helpText={t('根据单词的含义来查找，例如使用 "ringng in the ears" 来查找 "earing"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="sounds"
-                    helpText='根据单词的发音来查找，例如使用 "elefint" 来查找 "elephant"'
+                    helpText={t('根据单词的发音来查找，例如使用 "elefint" 来查找 "elephant"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="spelled"
-                    helpText='根据单词的拼写来查找，例如使用 "app??" 或 "app*" 来查找 "apple", "?"代表一个字符, "*"代表多个字符'
+                    helpText={t('根据单词的拼写来查找，例如使用 "app??" 或 "app*" 来查找 "apple", "?"代表一个字符, "*"代表多个字符')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="topics"
-                    helpText='根据单词的主题来查找，例如使用 "fruit" 来查找 "apple", 最多五个主题，主题之间用空格分隔'
+                    helpText={t('根据单词的主题来查找，例如使用 "fruit" 来查找 "apple", 最多五个主题，主题之间用空格分隔')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="leftContext"
-                    helpText='如果想查找 "person", 用经常出现在person前面的单词来查找，例如 "kind"'
+                    helpText={t('如果想查找 "person", 用经常出现在person前面的单词来查找，例如 "kind"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="rightContext"
-                    helpText='如果想查找 "kind", 用经常出现在kind后面的单词来查找，例如 "person"'
+                    helpText={t('如果想查找 "kind", 用经常出现在kind后面的单词来查找，例如 "person"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="antonyms"
-                    helpText='如果想查找 "good", 用反义词来查找，例如 "bad"'
+                    helpText={t('如果想查找 "good", 用反义词来查找，例如 "bad"')}
                 />
                 {filters.length > 0 &&
                     <Button className="mt-2" variant="outline-info" size="lg" block onClick={this.onSubmit}>
