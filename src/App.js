@@ -12,23 +12,31 @@ import axios from 'axios';
 
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withTranslation } from 'react-i18next';
 
 import Components from './components';
 
 class App extends Component {
-    state = {
-        filters: [],
+    constructor(props) {
+        super(props);
 
-        means: null,
-        sounds: null,
-        spelled: null,
-        topics: null,
-        rightContext: null,
-        leftContext: null,
-        antonyms: null,
+        let language = localStorage.getItem('language') || "zh";
 
-        isLoading: false,
-        results: null,
+        this.state = {
+            language: language,
+            filters: [],
+
+            means: null,
+            sounds: null,
+            spelled: null,
+            topics: null,
+            rightContext: null,
+            leftContext: null,
+            antonyms: null,
+
+            isLoading: false,
+            results: null,
+        }
     }
 
     onChange = event => {
@@ -102,72 +110,89 @@ class App extends Component {
         }
     }
 
+    onSwitchLanguage = () => {
+        const { language } = this.state;
+        const newLanguage = language === "zh" ? "en" : "zh";
+        localStorage.setItem("language", newLanguage);
+        this.setState(
+            { language: newLanguage },
+            () => {
+                this.props.i18n.changeLanguage(newLanguage);
+            },
+        );
+    }
+
     render() {
-        const { filters, isLoading, results } = this.state;
+        const { t } = this.props;
+        const { language, filters, isLoading, results } = this.state;
         return (
             <Container>
                 <InputGroup className="shadow-sm mt-2">
                     <InputGroup.Prepend>
-                        <Button variant="outline-secondary"> En/汉 </Button>
+                        <Button variant="outline-secondary" onClick={this.onSwitchLanguage}>
+                            <span className={language === "zh" ? "font-weight-bolder" : ""}>汉</span>
+                            /
+                            <span className={language === "en" ? "font-weight-bolder" : ""}>En</span>
+                        </Button>
                     </InputGroup.Prepend>
                     <Form.Control as="select" defaultValue="" onChange={this.onChange}>
-                        <option value="">查找单词</option>
-                        {!filters.includes("means") && <option value="means">意思相似</option>}
-                        {!filters.includes("sounds") && <option value="sounds">发音相似</option>}
-                        {!filters.includes("spelled") && <option value="spelled">拼写相似</option>}
-                        {!filters.includes("topics") && <option value="topics">单词分类</option>}
+                        <option value="">{t("查找单词")}</option>
+                        {!filters.includes("means") && <option value="means">{t("意思相似")}</option>}
+                        {!filters.includes("sounds") && <option value="sounds">{t("发音相似")}</option>}
+                        {!filters.includes("spelled") && <option value="spelled">{t("拼写相似")}</option>}
+                        {!filters.includes("topics") && <option value="topics">{t("单词分类")}</option>}
                         {!filters.includes("rightContext")
-                                && <option value="rightContext"> 经常出现在后面的单词 </option>}
+                                && <option value="rightContext">{t("经常出现在后面的单词")}</option>}
                         {!filters.includes("leftContext")
-                                && <option value="leftContext"> 经常出现在前面的单词 </option>}
-                        {!filters.includes("antonyms") && <option value="antonyms">反义词</option>}
+                                && <option value="leftContext">{t("经常出现在前面的单词")}</option>}
+                        {!filters.includes("antonyms") && <option value="antonyms">{t("反义词")}</option>}
                     </Form.Control>
                 </InputGroup>
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="means"
-                    helpText='根据单词的含义来查找，例如使用 "ringng in the ears" 来查找 "earing"'
+                    helpText={t('根据单词的含义来查找，例如使用 "ringng in the ears" 来查找 "earing"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="sounds"
-                    helpText=' 根据单词的发音来查找，例如使用 "elefint" 来查找 "elephant" '
+                    helpText={t('根据单词的发音来查找，例如使用 "elefint" 来查找 "elephant"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="spelled"
-                    helpText='根据单词的拼写来查找，例如使用 "app??" 或 "app*" 来查找 "apple", "?"代表一个字符, "*"代表多个字符'
+                    helpText={t('根据单词的拼写来查找，例如使用 "app??" 或 "app*" 来查找 "apple", "?"代表一个字符, "*"代表多个字符')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="topics"
-                    helpText='根据单词的主题来查找，例如使用 "fruit" 来查找 "apple", 最多五个主题，主题之间用空格分隔'
+                    helpText={t('根据单词的主题来查找，例如使用 "fruit" 来查找 "apple", 最多五个主题，主题之间用空格分隔')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="leftContext"
-                    helpText='如果想查找 "person", 用经常出现在person前面的单词来查找，例如 "kind"'
+                    helpText={t('如果想查找 "person", 用经常出现在person前面的单词来查找，例如 "kind"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="rightContext"
-                    helpText='如果想查找 "kind", 用经常出现在kind后面的单词来查找，例如 "person"'
+                    helpText={t('如果想查找 "kind", 用经常出现在kind后面的单词来查找，例如 "person"')}
                 />
                 <Components.FindInput 
                     filters={filters} onInputChange={this.onInputChange} onDeleteMethod={this.onDeleteMethod}
                     onKeyDown={this.handleKeyDown}
                     type="antonyms"
-                    helpText='如果想查找 "good", 用反义词来查找，例如 "bad"'
+                    helpText={t('如果想查找 "good", 用反义词来查找，例如 "bad"')}
                 />
                 {filters.length > 0 &&
                     <Button className="mt-2" variant="outline-info" size="lg" block onClick={this.onSubmit}>
-                        查找
+                        {t("查找")}
                     </Button>
                 }
                 <Components.Comment>loading</Components.Comment>
@@ -187,7 +212,7 @@ class App extends Component {
                 <Components.Comment>if there is no result</Components.Comment>
                 <Row className="mt-2 justify-content-center">
                     {!isLoading && results && results.length === 0 &&
-                        <span>找不到结果...</span>
+                        <span>{t("找不到结果")}...</span>
                     }
                 </Row>
             </Container>
@@ -195,4 +220,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withTranslation()(App);
