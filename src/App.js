@@ -21,6 +21,9 @@ class App extends Component {
         super(props);
 
         let language = localStorage.getItem('language') || "zh";
+        if (language !== "zh") {
+            props.i18n.changeLanguage(language);
+        }
 
         this.state = {
             language: language,
@@ -113,10 +116,10 @@ class App extends Component {
     onSwitchLanguage = () => {
         const { language } = this.state;
         const newLanguage = language === "zh" ? "en" : "zh";
-        localStorage.setItem("language", newLanguage);
         this.setState(
             { language: newLanguage },
             () => {
+                localStorage.setItem("language", newLanguage);
                 this.props.i18n.changeLanguage(newLanguage);
             },
         );

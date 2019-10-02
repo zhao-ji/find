@@ -64,6 +64,8 @@ i18n
                 }
             },
         },
+
+        lng: "zh",
         fallbackLng: "zh",
         debug: false,
 
