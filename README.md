@@ -2,8 +2,18 @@
 
 Find the word in an easy way
 
-Todo:
+###Todo:
 
 - copy to clipboard
 - results card: remove dot, remove dash
-- make the website as a PWA
+
+###make the website as a PWA
+- service worker
+- push notification
+- linkable
+- work as a widget
+
+###Maori Dictionary:
+- search for sentence
+- multi source
+- maori keyboard
