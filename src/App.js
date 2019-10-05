@@ -8,8 +8,6 @@ import {
     Col,
 } from 'react-bootstrap';
 
-import axios from 'axios';
-
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withTranslation } from 'react-i18next';
@@ -92,17 +90,17 @@ class App extends Component {
         }
 
         this.setState({ isLoading: true });
-        let args = {
-            params: params,
-        };
-        axios
-            .get("https://api.datamuse.com/words", args)
-            .then(response => {
-                const results = response.data;
+
+        let url = new URL('https://api.datamuse.com/words');
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const results = data;
                 this.setState({ results, isLoading: false });
             })
             .catch(error => {
-                console.error(error);
+                console.error(error)
                 this.setState({ isLoading: false });
             })
     }
