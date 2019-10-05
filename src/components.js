@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import { 
+import {
     ButtonGroup,
     Button,
     Card,
@@ -14,32 +14,49 @@ import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { faTrash, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const FindInput = ({ filters, onInputChange, onDeleteMethod, onKeyDown, type, helpText }) => {
-    if(!filters.includes(type)){
-        return false;
+class FindInput extends Component {
+    constructor(props) {
+        super(props);
+        this.textInput = React.createRef();
     }
-    return (
-        <Fragment>
-            <span className="d-block font-light-weight font-italic small mt-2">
-                {helpText}
-            </span>
-            <InputGroup className="shadow-sm">
-                <Form.Control
-                    type="text" size="lg"
-                    onChange={event => onInputChange(event, type)}
-                    onKeyDown={onKeyDown}
-                />
-                <InputGroup.Append>
-                    <Button variant="outline-secondary"> 
-                        <FontAwesomeIcon
-                            icon={faTrash} size="lg" className="float-right"
-                            onClick={() => onDeleteMethod(type)}
-                        />
-                    </Button>
-                </InputGroup.Append>
-            </InputGroup>
-        </Fragment>
-    );
+
+    onHelpTextClick = () => {
+        this.textInput.current.focus();
+        this.textInput.current.select();
+    }
+
+    render() {
+        const { filters, onInputChange, onDeleteMethod, onKeyDown, type, helpText } = this.props;
+        if(!filters.includes(type)){
+            return false;
+        }
+        return (
+            <Fragment>
+                <span
+                    onClick={this.onHelpTextClick}
+                    className="d-block font-light-weight font-italic small mt-2">
+                    {helpText}
+                </span>
+                <InputGroup className="shadow-sm">
+                    <Form.Control
+                        type="text" size="lg"
+                        ref={this.textInput}
+                        onChange={event => onInputChange(event, type)}
+                        onKeyDown={onKeyDown}
+                        onFocus={event => event.target.select()}
+                    />
+                    <InputGroup.Append>
+                        <Button variant="outline-secondary">
+                            <FontAwesomeIcon
+                                icon={faTrash} size="lg" className="float-right"
+                                onClick={() => onDeleteMethod(type)}
+                            />
+                        </Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            </Fragment>
+        );
+    }
 }
 
 class ResultCard extends Component {
