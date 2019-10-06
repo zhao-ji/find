@@ -5,7 +5,7 @@ Find the word in an easy way
 ###Todo:
 
 - copy to clipboard
-- results card: remove dot, remove dash
+- results card: remove dot, remove dash(hello)
 
 ###make the website as a PWA
 
