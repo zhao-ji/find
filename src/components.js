@@ -34,7 +34,7 @@ class FindInput extends Component {
             <Fragment>
                 <span
                     onClick={this.onHelpTextClick}
-                    className="d-block font-light-weight font-italic small mt-2">
+                    className="d-block font-light-weight font-italic small">
                     {helpText}
                 </span>
                 <InputGroup className="shadow-sm">
@@ -73,7 +73,7 @@ class ResultCard extends Component {
         return (
             <Card>
                 <Card.Body>
-                    <span style={{ fontSize: "1.5em" }} className="mb-2"> {word} </span>
+                    <span style={{ fontSize: "1.5em" }}> {word} </span>
                     <Row>
                         <Col lg="8" xs="8">
                             <meter min="0" max="100000" low="10000" value={score}></meter>
@@ -83,9 +83,7 @@ class ResultCard extends Component {
                                 <Button variant="light" onClick={() => this.onCopy(word)}>
                                     <FontAwesomeIcon icon={faClipboard} />
                                 </Button>
-                                <Button
-                                    href={`https://www.lexico.com/en/definition/${word}`}
-                                    target="_blank" variant="light">
+                                <Button href={`https://www.lexico.com/en/definition/${word}`} target="_blank" variant="light">
                                     <FontAwesomeIcon icon={faExternalLinkAlt} />
                                 </Button>
                             </ButtonGroup>

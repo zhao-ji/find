@@ -1,0 +1,7 @@
+.container > * {
+    margin-top: 0.5em;
+}
+
+.result-row > .result-col {
+    margin-top: 0.5em;
+}
