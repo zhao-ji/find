@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import {
     ButtonGroup,
@@ -60,12 +61,30 @@ class FindInput extends Component {
 }
 
 class ResultCard extends Component {
-    onCopy = word => {
-        // var dummy = document.createElement("input");
-        // document.body.appendChild(dummy);
-        // dummy.setAttribute('value', word);
-        // dummy.select();
-        // document.execCommand('copy');
+    state = {
+        copied: false,
+    }
+
+    conponentDidMount() {
+        this.timer = null;
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
+    handleCopy = () => {
+        this.setState(
+            {
+                copied: true
+            },
+            () => {
+                this.timer = setTimeout(
+                    () => this.setState({ copied: false }),
+                    3000
+                );
+            }
+        );
     }
 
     render() {
@@ -74,15 +93,16 @@ class ResultCard extends Component {
             <Card>
                 <Card.Body>
                     <span style={{ fontSize: "1.5em" }} className="mb-2"> {word} </span>
+                    {this.state.copied && <span className="float-right text-success"> Copied! </span>}
                     <Row>
                         <Col lg="8" xs="8">
                             <meter min="0" max="100000" low="10000" value={score}></meter>
                         </Col>
                         <Col lg="4" xs="4">
                             <ButtonGroup className="float-right" size="sm">
-                                <Button variant="light" onClick={() => this.onCopy(word)}>
-                                    <FontAwesomeIcon icon={faClipboard} />
-                                </Button>
+                                <CopyToClipboard text={word} onCopy={this.handleCopy}>
+                                    <Button variant="light"><FontAwesomeIcon icon={faClipboard}/></Button>
+                                </CopyToClipboard>
                                 <Button
                                     href={`https://www.lexico.com/en/definition/${word}`}
                                     target="_blank" variant="light">
